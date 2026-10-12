@@ -115,3 +115,7 @@ Verificação: `java -Xmx256m -cp 'build/desktop/finalroz/lib/app/*' tools/Facin
 ### Memória no Android
 
 As novas exportações carregam somente a cena ativa, lendo seu JSON em fluxo. Isso elimina a leitura integral da campanha na inicialização, que causava `OutOfMemoryError` após salvar o documento completo no editor. O projeto de autoria continua completo; reexporte releases antigas para receber a correção. Veja as medições e limites em [docs/PERFORMANCE.md](docs/PERFORMANCE.md).
+
+### Testar com AppImage
+
+No Linux, execute `bash tools/build.sh appimage` (ou `desktop`). A build gera `build/desktop/finalroz-x86_64.AppImage` neste computador e abre o jogo automaticamente ao concluir. A engine também permite isso pelo botão **Desktop / AppImage**. O pacote contém a JVM; não é necessário instalar Java para jogar. O log da abertura fica em `build/desktop/appimage-run.log`. Para somente gerar o arquivo, use `ENGINE_NO_OPEN=1 bash tools/build.sh appimage`.
