@@ -111,3 +111,7 @@ java -Xmx256m -cp 'build/desktop/finalroz/lib/app/*' tools/SettingsTest.java
 `spriteFacing` registra a orientação nativa (`left` ou `right`) dos sprites. O espelhamento acompanha o deslocamento efetivo; `patrolDirection` define separadamente a direção inicial dos inimigos. Assim zumbis e pedestres desenhados para a esquerda não caminham de costas. O jogador mantém a orientação da velocidade durante a desaceleração e a mudança de direção. Ao ficar bloqueado, o inimigo terrestre usa `idle` quando disponível. A ordem e a duração dos frames originais são preservadas.
 
 Verificação: `java -Xmx256m -cp 'build/desktop/finalroz/lib/app/*' tools/FacingTest.java`.
+
+### Memória no Android
+
+As novas exportações carregam somente a cena ativa, lendo seu JSON em fluxo. Isso elimina a leitura integral da campanha na inicialização, que causava `OutOfMemoryError` após salvar o documento completo no editor. O projeto de autoria continua completo; reexporte releases antigas para receber a correção. Veja as medições e limites em [docs/PERFORMANCE.md](docs/PERFORMANCE.md).
