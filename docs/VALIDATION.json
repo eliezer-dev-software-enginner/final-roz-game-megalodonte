@@ -6,12 +6,16 @@
   "androidReleaseProjectBuild": "passed",
   "runtimeProgressionPhases": 17,
   "runtimeSpawnPhases": 17,
-  "engineCoreTests": 52,
+  "engineCoreTests": 58,
   "alexVsBusRegressionTests": 25,
   "desktopVisualTest": "passed",
   "jsonSaveRoundTrip": "passed",
   "originalMenuStoryStartFlow": "passed",
   "androidPhysicalDeviceValidation": false,
   "godotVisualEffectsParity": false,
-  "details": "VALIDATION.md"
+  "details": "VALIDATION.md",
+  "engineDesktopTests": 49,
+  "combatImpactAndDeath": "passed",
+  "performanceBenchmark": "performance-results.json",
+  "androidDebugSignature": "verified"
 }

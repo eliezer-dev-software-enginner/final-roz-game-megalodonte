@@ -17,7 +17,7 @@ public final class Projectile implements GameScript {
         for(int step=0;step<steps;step++){
             var movement=c.move(e,dx/steps,dy/steps);
             if(movement.blockedX()||movement.blockedY()){c.scene().objects.remove(e);return;}
-            for(var enemy:c.scene().objects)if(enemy.solid&&enemy.properties.getOrDefault("kind","").equals("enemy")&&c.overlaps(e,enemy)){
+            for(var enemy:c.scene().objects)if(enemy.visible&&enemy.properties.getOrDefault("kind","").equals("enemy")&&megalodonte.engine.Runtime.overlaps(c.collisionBounds(e),c.collisionBounds(enemy))){
                 enemy.properties.put("hp","0");enemy.solid=false;c.scene().objects.remove(e);return;
             }
         }

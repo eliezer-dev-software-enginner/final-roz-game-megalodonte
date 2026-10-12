@@ -1,0 +1,101 @@
+{
+  "date": "2026-10-11",
+  "metric": "Runtime.update CPU time, excludes rendering/audio",
+  "platform": "x86_64",
+  "heap": "256 MiB",
+  "stepSeconds": 0.016666666666666666,
+  "warmupFrames": 120,
+  "measuredFrames": 360,
+  "baselineEngineCommit": "61eef47",
+  "baselineGameCommit": "5166618",
+  "after": "current working tree",
+  "before": [
+    {
+      "scene": "level-1",
+      "scenario": "idle",
+      "medianMs": 3.325,
+      "p95Ms": 4.035,
+      "maxMs": 21.231
+    },
+    {
+      "scene": "level-1",
+      "scenario": "combat",
+      "medianMs": 5.433,
+      "p95Ms": 6.737,
+      "maxMs": 8.506
+    },
+    {
+      "scene": "level-9",
+      "scenario": "idle",
+      "medianMs": 0.142,
+      "p95Ms": 0.421,
+      "maxMs": 0.629
+    },
+    {
+      "scene": "level-9",
+      "scenario": "combat",
+      "medianMs": 3.389,
+      "p95Ms": 3.747,
+      "maxMs": 4.49
+    },
+    {
+      "scene": "level-16",
+      "scenario": "idle",
+      "medianMs": 0.16,
+      "p95Ms": 0.487,
+      "maxMs": 5.542
+    },
+    {
+      "scene": "level-16",
+      "scenario": "combat",
+      "medianMs": 0.263,
+      "p95Ms": 0.355,
+      "maxMs": 4.475
+    }
+  ],
+  "afterResults": [
+    {
+      "scene": "level-1",
+      "scenario": "idle",
+      "medianMs": 0.384,
+      "p95Ms": 0.993,
+      "maxMs": 9.013
+    },
+    {
+      "scene": "level-1",
+      "scenario": "combat",
+      "medianMs": 0.396,
+      "p95Ms": 0.558,
+      "maxMs": 1.172
+    },
+    {
+      "scene": "level-9",
+      "scenario": "idle",
+      "medianMs": 0.046,
+      "p95Ms": 0.065,
+      "maxMs": 0.103
+    },
+    {
+      "scene": "level-9",
+      "scenario": "combat",
+      "medianMs": 0.145,
+      "p95Ms": 0.293,
+      "maxMs": 9.862
+    },
+    {
+      "scene": "level-16",
+      "scenario": "idle",
+      "medianMs": 0.085,
+      "p95Ms": 0.102,
+      "maxMs": 4.114
+    },
+    {
+      "scene": "level-16",
+      "scenario": "combat",
+      "medianMs": 0.152,
+      "p95Ms": 0.189,
+      "maxMs": 4.008
+    }
+  ],
+  "androidDeviceMeasured": false
+}

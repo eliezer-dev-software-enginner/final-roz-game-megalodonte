@@ -26,7 +26,7 @@ A coleta exaustiva usa os scripts reais de moeda, porta e sessão, posicionando 
 
 ## Engine e apresentação
 
-52 testes do core e 25 testes de regressão de Alex vs Bus passaram. O teste `FinalRozVisualTest` compila os scripts do projeto, usa o renderizador Desktop real e captura menu, história da fase 1, cartão LEVEL 1, opções, seleção e fases 1, 4, 15, 16 e 17. Também confere que os textos dos botões originais cabem em suas áreas.
+58 testes do core e 25 testes de regressão de Alex vs Bus passaram. O teste `FinalRozVisualTest` compila os scripts do projeto, usa o renderizador Desktop real e captura menu, história da fase 1, cartão LEVEL 1, opções, seleção e fases 1, 4, 15, 16 e 17. Também confere que os textos dos botões originais cabem em suas áreas.
 
 As imagens são gravadas em `megalodonte-engine/build/preview/finalroz-*.png`. A conferência visual corrigiu a sobreposição indevida do piso sobre o jogador isométrico e os textos WEITER!/START! cortados.
 
@@ -39,3 +39,7 @@ O projeto Android usa API mínima/alvo 35 (Android 15), conforme a configuraçã
 ## Limites da equivalência
 
 Os mapas, sprites, animações, itens e principais mecânicas estão na adaptação. Efeitos de shader, partículas e iluminação específica do Godot não têm reprodução visual idêntica. As histórias adicionais disponíveis no repositório foram incluídas no fluxo e permanecem como cenas separadas para edição.
+
+## Otimizações e combate
+
+A revisão de desempenho está em [PERFORMANCE.md](PERFORMANCE.md). O teste `CombatTest` verifica remoção de cada bala no impacto em inimigos vivos/morrendo e a rotação/fade da morte. O índice espacial é comparado com consultas exaustivas no core, e as 17 fases mantêm os testes de progressão e nascimento.

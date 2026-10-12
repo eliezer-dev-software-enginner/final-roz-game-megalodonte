@@ -86,3 +86,7 @@ java -Xmx256m -cp "build/desktop/finalroz/lib/app/*" tools/MechanicsTest.java
 Os testes cobrem a coleta final e transição das 17 fases, spawn no chão, salto duplo, bloqueio de fases, recordes, JSON, tiros, portas, plataformas e bombas. A coleta exaustiva posiciona o jogador em cada moeda para validar o contador; ela não substitui uma partida completa pelo percurso. Detalhes em [docs/VALIDATION.md](docs/VALIDATION.md).
 
 Código e assets do original estão sob MIT. Autoria e licença foram preservadas em `LICENSE`.
+
+## Desempenho e combate
+
+Veja [diagnóstico e otimizações](docs/PERFORMANCE.md) para as mudanças em colisões, carregamento de recursos, áudio e memória, medições reproduzíveis e testes de disparo/animação de morte.
