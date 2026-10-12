@@ -19,7 +19,7 @@ public final class Player implements GameScript {
         if(!water){if(p.properties.remove("swimming")!=null){p.colliderHeight=standingHeight;crouching=false;}return false;}
         p.properties.put("swimming","true");p.colliderHeight=standingHeight*.55;crouching=false;
         double x=c.horizontal()+(c.actionDown("right")?1:0)-(c.actionDown("left")?1:0),y=c.vertical()+(c.actionDown("up")||c.actionDown("pad_up")||c.actionDown("pad_a")||c.actionDown("jump")||c.actionDown("space")?1:0)-(c.actionDown("down")||c.actionDown("pad_down")||c.actionDown("crouch")?1:0);
-        vx=approach(vx,Math.max(-1,Math.min(1,x))*3.125,65.625*dt);vy=approach(vy,Math.max(-1,Math.min(1,y))*3.125,65.625*dt);c.move(p,vx*dt,vy*dt);if(x!=0)p.flipX=x<0;animation(c,"swim");return true;
+        vx=approach(vx,Math.max(-1,Math.min(1,x))*3.125,65.625*dt);vy=approach(vy,Math.max(-1,Math.min(1,y))*3.125,65.625*dt);c.move(p,vx*dt,vy*dt);Actors.face(p,vx);animation(c,"swim");return true;
     }
     private void platform(GameContext c,double dt){
         var p=c.object();boolean ground=c.grounded(p);coyote=ground?.12:Math.max(0,coyote-dt);if(ground)airJumps=1;
@@ -29,7 +29,7 @@ public final class Player implements GameScript {
         if(!wantCrouch&&crouching){p.colliderHeight=standingHeight;var test=c.move(p,0,0);if(test.blockedY())p.colliderHeight=standingHeight*.55;else crouching=false;}
         double direction=Math.max(-1,Math.min(1,c.horizontal()+(c.actionDown("right")?1:0)-(c.actionDown("left")?1:0)));
         boolean run=c.actionDown("shift")||c.actionDown("run")||c.actionDown("pad_r1");double speed=advanced&&!run?5:10.9375;if(crouching)speed*=.45;
-        vx=approach(vx,direction*speed,65.625*dt);if(direction!=0)p.flipX=direction<0;
+        vx=approach(vx,direction*speed,65.625*dt);Actors.face(p,vx);
         boolean jumping=jump(c);jumpBuffer=jumping?.15:Math.max(0,jumpBuffer-dt);
         if(jumpBuffer>0&&(coyote>0||airJumps>0)){if(coyote<=0)airJumps--;vy=15.625;jumpBuffer=0;coyote=0;ground=false;Actors.sound(c,"jumpSound");}
         vy=Math.max(-31.25,vy-32.8125*dt);double dx=vx*dt,dy=vy*dt,oldX=p.x,oldY=p.y;

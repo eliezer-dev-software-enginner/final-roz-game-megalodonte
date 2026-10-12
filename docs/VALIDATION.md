@@ -49,3 +49,7 @@ A revisão de desempenho está em [PERFORMANCE.md](PERFORMANCE.md). O teste `Com
 `PatrolTest` percorre 1.039 inimigos/pedestres em todas as 17 fases a 30 e 120 Hz. A investigação encontrou zumbis dentro de um chão cuja superfície estava acima do colisor dos atores, causando 600 inversões em 600 quadros. Foram corrigidas 35 posições iniciais, persistidas no documento e no relatório de correções do importador. A patrulha ganhou sonda de apoio e intervalo temporal de inversão, sem reduzir a velocidade das animações por número de quadros.
 
 `SettingsTest` verifica ligar/desligar FPS, medição da cadência, efeitos a 35%, ajuste/salvamento de volume, restauração e compatibilidade com saves antigos. Os testes do core também verificam separação de corpos sobrepostos, FPS durante pausa e animações independentes do FPS.
+
+## Orientação dos personagens — 2026-10-12
+
+Foi conferida visualmente a orientação nativa dos sprites usados pelos personagens. `spriteFacing` separa essa orientação do sentido da patrulha, evitando que zumbis e pedestres desenhados para a esquerda andem de costas. A orientação em movimento acompanha a velocidade/deslocamento; um inimigo terrestre bloqueado usa idle quando disponível. A sequência e o FPS das animações originais são preservados. `FacingTest` verifica as 1.056 instâncias de atores nos dois sentidos e sem deslocamento; a patrulha das 17 fases e o combate também foram verificados.

@@ -105,3 +105,9 @@ Verificações adicionais:
 java -Xmx256m -cp 'build/desktop/finalroz/lib/app/*' tools/PatrolTest.java
 java -Xmx256m -cp 'build/desktop/finalroz/lib/app/*' tools/SettingsTest.java
 ```
+
+### Orientação dos sprites
+
+`spriteFacing` registra a orientação nativa (`left` ou `right`) dos sprites. O espelhamento acompanha o deslocamento efetivo; `patrolDirection` define separadamente a direção inicial dos inimigos. Assim zumbis e pedestres desenhados para a esquerda não caminham de costas. O jogador mantém a orientação da velocidade durante a desaceleração e a mudança de direção. Ao ficar bloqueado, o inimigo terrestre usa `idle` quando disponível. A ordem e a duração dos frames originais são preservadas.
+
+Verificação: `java -Xmx256m -cp 'build/desktop/finalroz/lib/app/*' tools/FacingTest.java`.

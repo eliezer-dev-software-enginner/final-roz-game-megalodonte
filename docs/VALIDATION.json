@@ -1,5 +1,5 @@
 {
-  "date": "2026-10-11",
+  "date": "2026-10-12",
   "scope": "17 phases and 48 editable scenes",
   "desktopBuild": "passed",
   "androidDebugBuild": "passed",
@@ -25,5 +25,7 @@
     120
   ],
   "correctedSpawnPoses": 35,
-  "fpsAndEffectsSettings": "passed"
+  "fpsAndEffectsSettings": "passed",
+  "actorFacingAudit": 1056,
+  "actorFacingTest": "passed"
 }

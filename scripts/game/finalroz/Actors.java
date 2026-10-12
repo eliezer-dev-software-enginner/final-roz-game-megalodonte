@@ -17,5 +17,6 @@ final class Actors {
         player(c).properties.put("invincible","1.0");sound(c,"hurtSound");
         if(lives<=0){c.state().put("run.gameOver","true");c.pause(true);c.state().put("run.paused","true");}
     }
+    static void face(Game.Entity e,double movement){if(Math.abs(movement)>1e-8)e.flipX=(movement<0)!=e.properties.getOrDefault("spriteFacing","right").equals("left");}
     static double distance(GameContext c,Game.Entity e){var p=player(c);return Math.hypot(e.x-p.x,e.y-p.y);}
 }

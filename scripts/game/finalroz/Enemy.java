@@ -6,7 +6,7 @@ public final class Enemy implements GameScript {
     private boolean dying;
     private final Game.Entity floorProbe=new Game.Entity();
     public void onStart(GameContext c){
-        var e=c.object();direction=e.flipX?-1:1;
+        var e=c.object();direction=Math.signum(Actors.number(e,"patrolDirection",e.flipX?-1:1));if(direction==0)direction=1;Actors.face(e,direction);
         // Imported actors may partially overlap a floor; restore a free pose before patrol.
         c.resolvePenetration(e,2.5);originY=e.y;
         floorProbe.width=.08;floorProbe.height=.16;floorProbe.solid=false;
@@ -28,6 +28,7 @@ public final class Enemy implements GameScript {
         }
         if(Actors.distance(c,e)>45)return;
         turnWait=Math.max(0,turnWait-dt);clock+=dt;double speed=Actors.number(e,"speed",2);boolean fly=Boolean.parseBoolean(e.properties.getOrDefault("flying","false"));
+        boolean walking=fly||Actors.iso(c);
         if(Actors.iso(c)){
             var p=Actors.player(c);double dx=p.x-e.x,dy=p.y-e.y,n=Math.hypot(dx,dy);if(n>0)c.move(e,dx/n*speed*dt,dy/n*speed*dt*.75);
         }else{
@@ -42,9 +43,10 @@ public final class Enemy implements GameScript {
             if(m.blockedX()&&!turned&&turnWait==0&&!c.blocked(e,-direction*Math.max(.01,speed*dt),0)){
                 direction=-direction;turnWait=.2;
             }
-            if(m.blockedY())vy=0;e.flipX=direction<0;
+            walking=walking||Math.abs(m.x())>1e-6;
+            if(m.blockedY())vy=0;if(!m.blockedX())Actors.face(e,m.x());
         }
-        String animation=e.animations.containsKey("walk")?"walk":e.animations.containsKey("run")?"run":e.animation;if(!animation.isBlank())c.animate(e,animation);
+        String animation=!walking&&e.animations.containsKey("idle")?"idle":e.animations.containsKey("walk")?"walk":e.animations.containsKey("run")?"run":e.animation;if(!animation.isBlank())c.animate(e,animation);
         if(!Boolean.parseBoolean(e.properties.getOrDefault("harmless","false"))&&c.overlaps(e,Actors.player(c)))Actors.damage(c);
     }
 }

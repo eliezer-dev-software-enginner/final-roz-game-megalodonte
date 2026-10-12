@@ -206,6 +206,15 @@ option_huds['message'].update(offsetX=320,offsetY=605,width=900,height=50,fontSi
 for scene in [menu,options,help_scene,select,records]+stories+intros+scenes+[ending]:
  gameplay=scene['id'].startswith('level-')
  scene['hud'].append(dict(hud('fps','FPS: —',20 if gameplay else 110,80 if gameplay else 8,140,28,anchor='right'),fontSize=18,color='#b8c8d8',textAlign='right',visible=False,scriptClassName='game.finalroz.FpsOverlay',referenceArea='viewport'))
+# Native orientation is data, independent of patrol direction and animation order.
+left_facing={{'hai.tscn', 'zombie.tscn', 'scorpion.tscn', 'frankenstein.tscn', 'schlange.tscn', 'ant.tscn', 'passantin.tscn', 'kroko.tscn', 'wizard.tscn', 'welly.tscn', 'alienpassant.tscn', 'nosferatu.tscn', 'passant.tscn', 'kleinerdrache.tscn'}}
+for scene in scenes:
+ for entity in scene['objects']:
+  if entity.get('scriptClassName') in ('game.finalroz.Enemy','game.finalroz.Player'):
+   props=entity['properties'];props['spriteFacing']='left' if Path(props.get('source','')).name in left_facing else 'right'
+   if entity['scriptClassName'].endswith('Enemy') and not scene.get('depthSort',False):
+    props['patrolDirection']='-1' if entity.get('flipX',False) else '1'
+    entity['flipX']=(float(props['patrolDirection'])<0)!=(props['spriteFacing']=='left')
 # Keep reviewed, collision-safe spawn poses visible in the editor after regeneration.
 corrections_path=ROOT/'docs/spawn-corrections.json'
 if corrections_path.exists():
