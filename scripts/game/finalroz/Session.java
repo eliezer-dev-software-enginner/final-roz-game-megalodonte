@@ -4,6 +4,7 @@ import megalodonte.engine.*;
 public final class Session implements GameScript {
     private double seconds;private int total,level;private boolean completed;
     public void onStart(GameContext c){
+        c.setSoundVolume(Double.parseDouble(c.state().getOrDefault("soundVolume","0.35")));
         level=Integer.parseInt(c.scene().id.substring(6));total=(int)c.scene().objects.stream().filter(e->e.properties.getOrDefault("kind","").equals("coin")).count();
         c.state().put("run.coins","0");c.state().put("run.total",""+total);c.state().put("run.level",""+level);c.state().put("run.paused","false");c.state().put("run.gameOver","false");c.state().putIfAbsent("run.lives","25");
         for(String color:new String[]{"red","green","blue"})c.state().remove("run.key."+color);

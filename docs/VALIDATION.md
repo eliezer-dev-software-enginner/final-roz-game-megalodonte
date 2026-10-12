@@ -26,7 +26,7 @@ A coleta exaustiva usa os scripts reais de moeda, porta e sessão, posicionando 
 
 ## Engine e apresentação
 
-58 testes do core e 25 testes de regressão de Alex vs Bus passaram. O teste `FinalRozVisualTest` compila os scripts do projeto, usa o renderizador Desktop real e captura menu, história da fase 1, cartão LEVEL 1, opções, seleção e fases 1, 4, 15, 16 e 17. Também confere que os textos dos botões originais cabem em suas áreas.
+63 testes do core e 25 testes de regressão de Alex vs Bus passaram. O teste `FinalRozVisualTest` compila os scripts do projeto, usa o renderizador Desktop real e captura menu, história da fase 1, cartão LEVEL 1, opções, seleção e fases 1, 4, 15, 16 e 17. Também confere que os textos dos botões originais cabem em suas áreas.
 
 As imagens são gravadas em `megalodonte-engine/build/preview/finalroz-*.png`. A conferência visual corrigiu a sobreposição indevida do piso sobre o jogador isométrico e os textos WEITER!/START! cortados.
 
@@ -43,3 +43,9 @@ Os mapas, sprites, animações, itens e principais mecânicas estão na adaptaç
 ## Otimizações e combate
 
 A revisão de desempenho está em [PERFORMANCE.md](PERFORMANCE.md). O teste `CombatTest` verifica remoção de cada bala no impacto em inimigos vivos/morrendo e a rotação/fade da morte. O índice espacial é comparado com consultas exaustivas no core, e as 17 fases mantêm os testes de progressão e nascimento.
+
+## Patrulha e opções
+
+`PatrolTest` percorre 1.039 inimigos/pedestres em todas as 17 fases a 30 e 120 Hz. A investigação encontrou zumbis dentro de um chão cuja superfície estava acima do colisor dos atores, causando 600 inversões em 600 quadros. Foram corrigidas 35 posições iniciais, persistidas no documento e no relatório de correções do importador. A patrulha ganhou sonda de apoio e intervalo temporal de inversão, sem reduzir a velocidade das animações por número de quadros.
+
+`SettingsTest` verifica ligar/desligar FPS, medição da cadência, efeitos a 35%, ajuste/salvamento de volume, restauração e compatibilidade com saves antigos. Os testes do core também verificam separação de corpos sobrepostos, FPS durante pausa e animações independentes do FPS.

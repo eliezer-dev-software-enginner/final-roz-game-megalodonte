@@ -3,19 +3,23 @@ package game.finalroz;
 import megalodonte.engine.*;
 public final class Menu implements GameScript {
     private int focus;private boolean focusVisible;
-    public void onStart(GameContext c){c.pause(false);c.state().put("run.paused","false");c.state().putIfAbsent("progress.unlocked","1");c.state().putIfAbsent("audio","true");c.state().putIfAbsent("touch","true");refresh(c);}
+    public void onStart(GameContext c){c.pause(false);c.state().put("run.paused","false");c.state().putIfAbsent("progress.unlocked","1");c.state().putIfAbsent("audio","true");c.state().putIfAbsent("touch","true");c.state().putIfAbsent("showFps","false");c.state().putIfAbsent("soundVolume","0.35");refresh(c);}
     private void status(GameContext c,String text){c.findHud("message").text=text;}
     private void refresh(GameContext c){
+        c.setSoundVolume(Double.parseDouble(c.state().getOrDefault("soundVolume","0.35")));
         c.mute(!Boolean.parseBoolean(c.state().getOrDefault("audio","true")));
         for(var h:c.scene().hud){
             if(h.id.equals("audio"))h.text="ÁUDIO: "+(Boolean.parseBoolean(c.state().getOrDefault("audio","true"))?"ON":"OFF");
+            if(h.id.equals("showFps"))h.text="MOSTRAR FPS: "+(Boolean.parseBoolean(c.state().getOrDefault("showFps","false"))?"ON":"OFF");
+            if(h.id.equals("soundVolume"))h.text="EFEITOS: "+Math.round(Double.parseDouble(c.state().getOrDefault("soundVolume","0.35"))*100)+"%";
             if(h.id.equals("touch"))h.text="TOQUE: "+(Boolean.parseBoolean(c.state().getOrDefault("touch","true"))?"ON":"OFF");
             if(h.action.startsWith("level:")){int level=Integer.parseInt(h.action.substring(6));boolean enabled=level<=Progress.unlocked(c);h.setBooleanProperty("liberado",enabled);h.text=enabled?""+level:"🔒";h.color=enabled?"#ffffff":"#8993a5";}
             if(h.id.startsWith("record-")){String level=h.id.substring(7);h.text="FASE "+level+"    "+Progress.time(c.state().get("best.level-"+level));}
         }
     }
     private void action(GameContext c,String action){
-        if(action.equals("audio")||action.equals("touch")){c.state().put(action,""+!Boolean.parseBoolean(c.state().getOrDefault(action,"true")));c.saveState();refresh(c);}
+        if(action.equals("audio")||action.equals("touch")||action.equals("showFps")){c.state().put(action,""+!Boolean.parseBoolean(c.state().getOrDefault(action,action.equals("showFps")?"false":"true")));c.saveState();refresh(c);}
+        else if(action.equals("soundVolume")){double current=Double.parseDouble(c.state().getOrDefault("soundVolume","0.35"));double next=current<.25?.25:current<.35?.35:current<.5?.5:current<.75?.75:current<1?1:0;c.state().put("soundVolume",""+next);c.saveState();refresh(c);}
         else if(action.equals("play")){c.state().put("run.lives","25");c.changeScene("story-1");}
         else if(action.equals("options")||action.equals("help"))c.changeScene(action);
         else if(action.startsWith("card:"))c.changeScene("intro-"+action.substring(5));

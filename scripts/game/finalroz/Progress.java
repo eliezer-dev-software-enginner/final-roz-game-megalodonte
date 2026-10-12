@@ -8,15 +8,16 @@ public final class Progress {
         var result=new LinkedHashMap<String,String>();
         for(var entry:values.entrySet()){
             String k=entry.getKey(),v=entry.getValue();
-            if(k.equals("audio")||k.equals("touch")){if(!v.equals("true")&&!v.equals("false"))throw new IllegalArgumentException("Opção inválida: "+k);}
+            if(k.equals("audio")||k.equals("touch")||k.equals("showFps")){if(!v.equals("true")&&!v.equals("false"))throw new IllegalArgumentException("Opção inválida: "+k);}
+            else if(k.equals("soundVolume")){double volume=Double.parseDouble(v);if(!Double.isFinite(volume)||volume<0||volume>1)throw new IllegalArgumentException("Volume inválido");}
             else if(k.equals("progress.unlocked")){int n=Integer.parseInt(v);if(n<1||n>LEVELS)throw new IllegalArgumentException("Fase desbloqueada inválida");}
             else if(k.matches("best\\.level-(?:[1-9]|1[0-7])")){long ms=Long.parseLong(v);if(ms<0||ms>86400000)throw new IllegalArgumentException("Tempo inválido");}
             else throw new IllegalArgumentException("Propriedade desconhecida: "+k);
             result.put(k,v);
         }
-        result.putIfAbsent("progress.unlocked","1");result.putIfAbsent("audio","true");result.putIfAbsent("touch","true");return result;
+        result.putIfAbsent("progress.unlocked","1");result.putIfAbsent("audio","true");result.putIfAbsent("touch","true");result.putIfAbsent("showFps","false");result.putIfAbsent("soundVolume","0.35");return result;
     }
-    public static Map<String,String> portable(Map<String,String> state){var values=new LinkedHashMap<String,String>();for(var e:state.entrySet())if(e.getKey().equals("progress.unlocked")||e.getKey().equals("audio")||e.getKey().equals("touch")||e.getKey().startsWith("best."))values.put(e.getKey(),e.getValue());return validate(values);}
+    public static Map<String,String> portable(Map<String,String> state){var values=new LinkedHashMap<String,String>();for(var e:state.entrySet())if(e.getKey().equals("progress.unlocked")||e.getKey().equals("audio")||e.getKey().equals("touch")||e.getKey().equals("showFps")||e.getKey().equals("soundVolume")||e.getKey().startsWith("best."))values.put(e.getKey(),e.getValue());return validate(values);}
     static int unlocked(GameContext c){return Integer.parseInt(c.state().getOrDefault("progress.unlocked","1"));}
     static void complete(GameContext c,int level,double seconds){
         String key="best.level-"+level;long elapsed=Math.round(seconds*1000),old=Long.parseLong(c.state().getOrDefault(key,"86400000"));

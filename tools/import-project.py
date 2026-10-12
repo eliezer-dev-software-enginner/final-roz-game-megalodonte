@@ -195,6 +195,26 @@ ending=screen('ending','Final • jogo concluído');ending['hud']=[hud('heading'
 # Menu composition uses the same centered 16:9 reference as the original camera.
 for ui_scene in [menu,options,help_scene,select,records]+stories+intros+[ending]:
  for h in ui_scene['hud']:h['referenceArea']='content'
+# Settings and FPS overlay remain authorable and survive regenerating the source project.
+option_huds={h['id']:h for h in options['hud']}
+for key,label in [('showFps','MOSTRAR FPS: OFF'),('soundVolume','EFEITOS: 35%')]:
+ options['hud'].append(hud(key,label,100,425,520,65,key))
+option_huds={h['id']:h for h in options['hud']}
+for key,(x,y,w) in {'levels':(380,150,520),'export':(100,245,520),'import':(660,245,520),'audio':(100,335,520),'touch':(660,335,520),'showFps':(100,425,520),'soundVolume':(660,425,520),'help':(380,515,520)}.items():
+ option_huds[key].update(offsetX=x,offsetY=y,width=w,height=65)
+option_huds['message'].update(offsetX=320,offsetY=605,width=900,height=50,fontSize=22)
+for scene in [menu,options,help_scene,select,records]+stories+intros+scenes+[ending]:
+ gameplay=scene['id'].startswith('level-')
+ scene['hud'].append(dict(hud('fps','FPS: —',20 if gameplay else 110,80 if gameplay else 8,140,28,anchor='right'),fontSize=18,color='#b8c8d8',textAlign='right',visible=False,scriptClassName='game.finalroz.FpsOverlay',referenceArea='viewport'))
+# Keep reviewed, collision-safe spawn poses visible in the editor after regeneration.
+corrections_path=ROOT/'docs/spawn-corrections.json'
+if corrections_path.exists():
+ fixes={(item['scene'],item['id']):item for item in json.loads(corrections_path.read_text())}
+ for scene in scenes:
+  for entity in scene['objects']:
+   correction=fixes.get((scene['id'],entity['id']))
+   if correction and abs(entity['x']-correction['sourceX'])<1e-6 and abs(entity['y']-correction['sourceY'])<1e-6:
+    entity.update(x=correction['x'],y=correction['y'])
 game={'version':1,'name':'Final Roz Game — Megalodonte','applicationId':'megalodonte.games.finalroz','versionCode':1,'versionName':'0.2.0','entrySceneId':'menu','lastEditedSceneId':'menu','iconAssetPath':asset('icon2.png'),'scenes':[menu,options,help_scene,select,records]+stories+intros+scenes+[ending]}
 (ROOT/'game.json').write_text(json.dumps(game,ensure_ascii=False,separators=(",",":"))+'\n');(ROOT/'docs/import-report.json').write_text(json.dumps({'levels':reports,'assets':ASSETS,'warnings':WARNINGS,'policy':'original tile polygons; 17 level scenes; individual actor scripts'},ensure_ascii=False,indent=2)+'\n');shutil.copy2(SOURCE/'LICENSE',ROOT/'LICENSE')
 print('17 fases importadas, cenas totais:',len(game['scenes']))

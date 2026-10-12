@@ -35,7 +35,7 @@ java -Xmx256m -cp 'build/desktop/finalroz/lib/app/*' tools/SmokeTest.java
 java -Xmx256m -cp 'build/desktop/finalroz/lib/app/*' tools/MechanicsTest.java
 ```
 
-`PerformanceTest` usa as fases 1, 9 e 16, com cenário parado e cenário andando/atirando, descarta 120 quadros de aquecimento e mede 360 updates com passo fixo de 1/60 s. Ele mede **CPU do runtime**, sem renderização ou reprodução de áudio. Não equivale ao FPS do Android. A linha de base foi capturada dos jars antes das mudanças (engine `61eef47`, jogo `5166618`). Resultados locais constam em `performance-results.json`.
+`PerformanceTest` usa as fases 1, 9 e 16, com cenário parado e cenário andando/atirando, descarta 120 quadros de aquecimento e mede 360 updates com passo fixo de 1/60 s. Ele mede **CPU do runtime**, sem renderização ou reprodução de áudio. Não equivale ao FPS do Android. A linha de base foi capturada dos jars antes das mudanças (engine `61eef47`, jogo `5166618`). Resultados locais da otimização inicial (engine `15e9d77`, jogo `0b85ea8`) constam em `performance-results.json`. A revisão posterior das patrulhas, posições de nascimento, FPS e volume está documentada em `VALIDATION.md`.
 
 Os testes da engine comparam milhares de consultas do índice com busca exaustiva em retângulos/polígonos, verificam atualizações do índice, geometrias grandes, culling/rotação, liberação/reset de cenas e orçamento de candidatos. Os testes do jogo cobrem acertos sucessivos durante a morte, progressão das 17 fases, pontos de nascimento, portas, plataformas, bombas, natação e dados JSON.
 

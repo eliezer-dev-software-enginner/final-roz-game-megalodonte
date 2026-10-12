@@ -8,7 +8,7 @@
   "measuredFrames": 360,
   "baselineEngineCommit": "61eef47",
   "baselineGameCommit": "5166618",
-  "after": "current working tree",
+  "after": "engine 15e9d77 / game 0b85ea8 (initial optimization benchmark)",
   "before": [
     {
       "scene": "level-1",

@@ -90,3 +90,18 @@ Código e assets do original estão sob MIT. Autoria e licença foram preservada
 ## Desempenho e combate
 
 Veja [diagnóstico e otimizações](docs/PERFORMANCE.md) para as mudanças em colisões, carregamento de recursos, áudio e memória, medições reproduzíveis e testes de disparo/animação de morte.
+
+## FPS, sons e patrulhas
+
+Abra **☰ → opções** e use **MOSTRAR FPS** para ligar/desligar o indicador. O padrão é desligado, e a preferência fica salva e acompanha a exportação/importação JSON. O contador mede a cadência real dos quadros, antes do limite de `deltaTime` da física, e continua atualizando durante a pausa.
+
+Os efeitos (salto, tiro, coleta, dano e explosão) começam em **35%**. Em **EFEITOS**, cada toque alterna entre 50%, 75%, 100%, 0%, 25% e 35%; a preferência também é salva. Esse ajuste não altera o volume da música.
+
+As patrulhas usam tempo em segundos, detecção de chão à frente e um intervalo de 0,2 s entre inversões. Inimigos sem saída mantêm a orientação, sem alternar a cada quadro. A revisão percorreu 1.039 inimigos/pedestres nas 17 fases a 30 e 120 Hz e corrigiu 35 posições iniciais parcialmente dentro da geometria. As posições corrigidas estão no `game.json` para aparecer corretamente no editor; `docs/spawn-corrections.json` preserva a referência para regeneração pelo importador. A execução ainda recupera sobreposições iniciais caso novos objetos sejam criados nessa condição.
+
+Verificações adicionais:
+
+```bash
+java -Xmx256m -cp 'build/desktop/finalroz/lib/app/*' tools/PatrolTest.java
+java -Xmx256m -cp 'build/desktop/finalroz/lib/app/*' tools/SettingsTest.java
+```

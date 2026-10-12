@@ -6,7 +6,7 @@
   "androidReleaseProjectBuild": "passed",
   "runtimeProgressionPhases": 17,
   "runtimeSpawnPhases": 17,
-  "engineCoreTests": 58,
+  "engineCoreTests": 63,
   "alexVsBusRegressionTests": 25,
   "desktopVisualTest": "passed",
   "jsonSaveRoundTrip": "passed",
@@ -17,5 +17,13 @@
   "engineDesktopTests": 49,
   "combatImpactAndDeath": "passed",
   "performanceBenchmark": "performance-results.json",
-  "androidDebugSignature": "verified"
+  "androidDebugSignature": "verified",
+  "patrolAuditEnemies": 1039,
+  "patrolAuditPhases": 17,
+  "patrolAuditFrameRates": [
+    30,
+    120
+  ],
+  "correctedSpawnPoses": 35,
+  "fpsAndEffectsSettings": "passed"
 }
