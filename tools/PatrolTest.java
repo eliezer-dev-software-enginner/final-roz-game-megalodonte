@@ -27,7 +27,7 @@ class PatrolTest {
        if(enemy.flipX!=previous){changes++;streak++;maxStreak=Math.max(streak,maxStreak);}else streak=0;previous=enemy.flipX;
       }
       check(maxStreak<=1,"Consecutive-frame reversal: "+source.id+"/"+enemy.name+" @"+hz);
-      check(changes<=12,"Excessive reversal rate: "+source.id+"/"+enemy.name+" @"+hz+" -> "+changes);
+      check(changes<=5,"Excessive reversal rate: "+source.id+"/"+enemy.name+" @"+hz+" -> "+changes);
       check(Double.isFinite(enemy.x)&&Double.isFinite(enemy.y),"Invalid patrol position");
      }
      checked++;phaseCount++;

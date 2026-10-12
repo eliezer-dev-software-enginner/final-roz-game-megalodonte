@@ -36,12 +36,12 @@ public final class Enemy implements GameScript {
             else vy=(originY+.65*Math.sin(clock*2)-e.y)*4;
             boolean turned=false;double dx=direction*speed*dt;
             if(!fly&&c.grounded(e)&&!support(c,e,direction)){
-                if(turnWait==0&&support(c,e,-direction)){direction=-direction;turnWait=.2;turned=true;dx=direction*speed*dt;}
+                if(turnWait==0&&support(c,e,-direction)){direction=-direction;turnWait=.5;turned=true;dx=direction*speed*dt;}
                 else dx=0; // Both feet unsafe: hold facing instead of flickering each frame.
             }
             var m=c.move(e,dx,vy*dt);
             if(m.blockedX()&&!turned&&turnWait==0&&!c.blocked(e,-direction*Math.max(.01,speed*dt),0)){
-                direction=-direction;turnWait=.2;
+                direction=-direction;turnWait=.5;
             }
             walking=walking||Math.abs(m.x())>1e-6;
             if(m.blockedY())vy=0;if(!m.blockedX())Actors.face(e,m.x());

@@ -127,3 +127,9 @@ A faixa de grama do atlas (128,256) é decorativa: sua colisão foi removida em 
 A música original em OGG foi convertida para MP3, compatível com o host JavaFX e Android. A importação requer `ffmpeg` para converter áudio OGG; imagens e dados do cenário são preservados. A música permanece em arquivo e é reproduzida pelo player de mídia, sem carregar todos os seus samples como efeito.
 
 O menu inicial, configurações, seleção de fases e telas de história usam a mesma faixa em loop, com volume de 35%. A faixa continua durante a navegação entre essas telas. O botão de áudio nas configurações controla também essa música.
+
+### Estabilidade visual
+
+A engine mantém o último quadro de sprite decodificado enquanto o próximo carrega, evitando alternar entre personagem visível e imagem vazia. Animações cíclicas de inimigos e NPCs usam no máximo 8 quadros por segundo; isso não altera velocidade de movimento nem o deltaTime da física. O intervalo mínimo entre reversões de patrulha passou a 0,5 segundo para evitar espelhamento rápido nas bordas. O importador mantém esses limites nas futuras importações.
+
+O teste `tools/VisualContinuityTest.java` simula 120 desenhos com os próximos frames indisponíveis e verifica os pixels do personagem: o último quadro deve permanecer visível, sem alternar com o fundo. Os testes de patrulha continuam verificando inimigos em cadências de 30 e 120 Hz.

@@ -227,5 +227,7 @@ if corrections_path.exists():
 game={'version':1,'name':'Final Roz Game — Megalodonte','applicationId':'megalodonte.games.finalroz','versionCode':1,'versionName':'0.2.0','entrySceneId':'menu','lastEditedSceneId':'menu','iconAssetPath':asset('icon2.png'),'scenes':[menu,options,help_scene,select,records]+stories+intros+scenes+[ending]}
 from terrain_cleanup import fix_grass
 fix_grass(game)
+from animation_cleanup import moderate_actor_animations
+moderate_actor_animations(game)
 (ROOT/'game.json').write_text(json.dumps(game,ensure_ascii=False,separators=(",",":"))+'\n');(ROOT/'docs/import-report.json').write_text(json.dumps({'levels':reports,'assets':ASSETS,'warnings':WARNINGS,'policy':'original tile polygons; 17 level scenes; individual actor scripts'},ensure_ascii=False,indent=2)+'\n');shutil.copy2(SOURCE/'LICENSE',ROOT/'LICENSE')
 print('17 fases importadas, cenas totais:',len(game['scenes']))
