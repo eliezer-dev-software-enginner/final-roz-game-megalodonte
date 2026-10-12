@@ -119,3 +119,11 @@ As novas exportações carregam somente a cena ativa, lendo seu JSON em fluxo. I
 ### Testar com AppImage
 
 No Linux, execute `bash tools/build.sh appimage` (ou `desktop`). A build gera `build/desktop/finalroz-x86_64.AppImage` neste computador e abre o jogo automaticamente ao concluir. A engine também permite isso pelo botão **Desktop / AppImage**. O pacote contém a JVM; não é necessário instalar Java para jogar. O log da abertura fica em `build/desktop/appimage-run.log`. Para somente gerar o arquivo, use `ENGINE_NO_OPEN=1 bash tools/build.sh appimage`.
+
+### Grama e música no Desktop
+
+A faixa de grama do atlas (128,256) é decorativa: sua colisão foi removida em 53 células, mantendo o terreno sólido abaixo. Isso evita que inimigos caminhem sobre a área transparente acima da grama. O importador aplica a mesma correção nas futuras importações. `tools/GroundContactTest.java` verifica o apoio dos zumbis externos da fase 1.
+
+A música original em OGG foi convertida para MP3, compatível com o host JavaFX e Android. A importação requer `ffmpeg` para converter áudio OGG; imagens e dados do cenário são preservados. A música permanece em arquivo e é reproduzida pelo player de mídia, sem carregar todos os seus samples como efeito.
+
+O menu inicial, configurações, seleção de fases e telas de história usam a mesma faixa em loop, com volume de 35%. A faixa continua durante a navegação entre essas telas. O botão de áudio nas configurações controla também essa música.

@@ -189,7 +189,7 @@
     }
   ],
   "assets": {
-    "music.ogg": "assets/6df4b3af40afbae3c650.ogg",
+    "music.ogg": "assets/6df4b3af40afbae3c650.mp3",
     "rozGRAFX/background/cloudsky 640x480.png:(0, 0, 640, 480)": "assets/0e80220b72405a5dbcdc.png",
     "rozGRAFX/tiles/Tiles64dark.webp": "assets/a20ce3d3e34a25b647ce.png",
     "rozGRAFX/tiles/BackgroundTiles7.webp": "assets/4644da4bbc891640cfaf.png",

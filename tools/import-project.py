@@ -158,7 +158,7 @@ for scene in scenes:
   owner=load(path);node=owner.sprite();texture,size,animations,initial=owner.visuals(node)
   rootscale=vector(field(owner.nodes[0]['body'],'scale'),(1,1));e=entity(owner,node,(0,0),rootscale,lambda x,y:(x/64,-y/64),path,'template');e.update(id=id,name='Modelo '+kindname,x=player['x'],y=player['y'],solid=False,visible=False,trigger=True);e['properties']['projectileType']=kindname;scene['objects'].append(e)
 def screen(id,name,background='#000000'):
- return {'id':id,'name':name,'background':background,'worldWidth':30,'worldHeight':16.875,'camera':{'x':15,'y':8.4375,'width':30,'height':16.875},'scriptClassName':'game.finalroz.Menu','objects':[],'hud':[]}
+ return {'id':id,'name':name,'background':background,'worldWidth':30,'worldHeight':16.875,'camera':{'x':15,'y':8.4375,'width':30,'height':16.875},'scriptClassName':'game.finalroz.Menu','musicAssetPath':asset('music.ogg'),'musicVolume':.35,'musicLoop':True,'objects':[],'hud':[]}
 def original_button(h):
  h.update(referenceArea='content',buttonBackground='#222222',buttonOpacity=.7,cornerRadius=0,fontFamily='SansSerif',textAlign='center',textVerticalAlign='center',fontSize=66.6667);return h
 def original_screen(path,id,name,action):
@@ -225,5 +225,7 @@ if corrections_path.exists():
    if correction and abs(entity['x']-correction['sourceX'])<1e-6 and abs(entity['y']-correction['sourceY'])<1e-6:
     entity.update(x=correction['x'],y=correction['y'])
 game={'version':1,'name':'Final Roz Game — Megalodonte','applicationId':'megalodonte.games.finalroz','versionCode':1,'versionName':'0.2.0','entrySceneId':'menu','lastEditedSceneId':'menu','iconAssetPath':asset('icon2.png'),'scenes':[menu,options,help_scene,select,records]+stories+intros+scenes+[ending]}
+from terrain_cleanup import fix_grass
+fix_grass(game)
 (ROOT/'game.json').write_text(json.dumps(game,ensure_ascii=False,separators=(",",":"))+'\n');(ROOT/'docs/import-report.json').write_text(json.dumps({'levels':reports,'assets':ASSETS,'warnings':WARNINGS,'policy':'original tile polygons; 17 level scenes; individual actor scripts'},ensure_ascii=False,indent=2)+'\n');shutil.copy2(SOURCE/'LICENSE',ROOT/'LICENSE')
 print('17 fases importadas, cenas totais:',len(game['scenes']))

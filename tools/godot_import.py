@@ -1,5 +1,5 @@
 """Godot text resource reader and asset conversion for the Megalodonte port."""
-import base64,collections,functools,hashlib,json,math,re,struct,uuid
+import subprocess,base64,collections,functools,hashlib,json,math,re,struct,uuid
 from pathlib import Path
 from PIL import Image
 ROOT=Path(__file__).resolve().parent.parent
@@ -22,7 +22,7 @@ def asset(path,region=None):
  if key in ASSETS:return ASSETS[key]
  source=SOURCE/path
  if not source.exists():raise FileNotFoundError(source)
- name=hashlib.sha256(key.encode()).hexdigest()[:20];dest=ROOT/'assets'/(name+('.png' if source.suffix.lower() in ('.png','.webp','.jpg','.jpeg') else source.suffix.lower()))
+ name=hashlib.sha256(key.encode()).hexdigest()[:20];dest=ROOT/'assets'/(name+('.png' if source.suffix.lower() in ('.png','.webp','.jpg','.jpeg') else '.mp3' if source.suffix.lower()=='.ogg' else source.suffix.lower()))
  if not dest.exists():
   if dest.suffix=='.png':
    im=image(path)
@@ -31,6 +31,7 @@ def asset(path,region=None):
     if w<=0 or h<=0 or x<0 or y<0 or x+w>im.width or y+h>im.height:raise ValueError(f'Atlas fora da textura: {path} {region} {im.size}')
     im=im.crop((x,y,x+w,y+h))
    im.save(dest)
+  elif source.suffix.lower()=='.ogg':subprocess.run(['ffmpeg','-v','error','-y','-i',str(source),'-c:a','libmp3lame','-b:a','128k',str(dest)],check=True)
   else:dest.write_bytes(source.read_bytes())
  ASSETS[key]='assets/'+dest.name;return ASSETS[key]
 @functools.lru_cache(None)
