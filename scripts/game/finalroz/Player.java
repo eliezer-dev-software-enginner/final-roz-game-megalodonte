@@ -3,15 +3,15 @@ package game.finalroz;
 import megalodonte.engine.*;
 import java.util.*;
 public final class Player implements GameScript {
-    private double vy,vx,spawnX,spawnY,coyote,jumpBuffer,shotTimer,standingHeight;private int airJumps=1;private boolean crouching;
+    private double vy,vx,spawnX,spawnY,coyote,jumpBuffer,shotTimer,weaponPoseTimer,standingHeight;private int airJumps=1;private boolean crouching;private String locomotion="idle";
     public void onStart(GameContext c){var p=c.object();spawnX=p.x;spawnY=p.y;standingHeight=p.colliderHeight;p.properties.put("invincible","0");}
-    private void animation(GameContext c,String name){var p=c.object();if(p.animations.containsKey(name))c.animate(p,name);else if(p.animations.containsKey("idle"))c.animate(p,"idle");}
+    private void animation(GameContext c,String name){var p=c.object();locomotion=name;if(weaponPoseTimer>0){String weapon=name.equals("walk")?"run_weapon":name+"_weapon";if(p.animations.containsKey(weapon))name=weapon;}if(p.animations.containsKey(name))c.animate(p,name);else if(p.animations.containsKey("idle"))c.animate(p,"idle");}
     private boolean jump(GameContext c){return c.actionPressed("space")||c.actionPressed("jump")||c.actionPressed("pad_a");}
     public void onUpdate(double dt,GameContext c){
-        if(Actors.paused(c))return;var p=c.object();double invincible=Math.max(0,Actors.number(p,"invincible",0)-dt);p.properties.put("invincible",""+invincible);shotTimer=Math.max(0,shotTimer-dt);
+        if(Actors.paused(c))return;var p=c.object();double invincible=Math.max(0,Actors.number(p,"invincible",0)-dt);p.properties.put("invincible",""+invincible);shotTimer=Math.max(0,shotTimer-dt);weaponPoseTimer=Math.max(0,weaponPoseTimer-dt);
         if(Actors.iso(c))isometric(c,dt);else if(!swimming(c,dt))platform(c,dt);
         boolean shoot=c.actionPressed("shoot")||c.actionPressed("x")||c.actionPressed("control")||c.actionPressed("ctrl")||c.actionPressed("pad_x");
-        if(shoot&&shotTimer<=0){spawnWeapon(c);shotTimer=Actors.iso(c)?2.5:.2;}
+        if(shoot&&shotTimer<=0){spawnWeapon(c);shotTimer=Actors.iso(c)?2.5:.2;if(!Actors.iso(c)){weaponPoseTimer=.2;animation(c,locomotion);p.animationTime=0;}}
         if(p.y<1){Actors.damage(c);p.x=spawnX;p.y=spawnY;vy=vx=0;airJumps=1;}
     }
     private boolean swimming(GameContext c,double dt){
@@ -26,7 +26,7 @@ public final class Player implements GameScript {
         boolean advanced=Boolean.parseBoolean(p.properties.getOrDefault("advanced","false"));
         boolean wantCrouch=advanced&&(c.actionDown("crouch")||c.actionDown("down")||c.vertical()<-.3||c.actionDown("pad_down"));
         if(wantCrouch&&!crouching){p.colliderHeight=standingHeight*.55;crouching=true;}
-        if(!wantCrouch&&crouching){p.colliderHeight=standingHeight;var test=c.move(p,0,0);if(test.blockedY())p.colliderHeight=standingHeight*.55;else crouching=false;}
+        if(!wantCrouch&&crouching){p.colliderHeight=standingHeight;if(c.blocked(p,0,0))p.colliderHeight=standingHeight*.55;else crouching=false;}
         double direction=Math.max(-1,Math.min(1,c.horizontal()+(c.actionDown("right")?1:0)-(c.actionDown("left")?1:0)));
         boolean run=c.actionDown("shift")||c.actionDown("run")||c.actionDown("pad_r1");double speed=advanced&&!run?5:10.9375;if(crouching)speed*=.45;
         vx=approach(vx,direction*speed,65.625*dt);Actors.face(p,vx);
@@ -40,7 +40,8 @@ public final class Player implements GameScript {
             else movement=c.move(p,0,-step-.12);
         }else if(ground&&vy<=0&&!movement.blockedY())movement=c.move(p,0,-Math.abs(dx)-.12);
         if(movement.blockedY()){if(vy<0)ground=true;vy=0;}
-        String name=crouching?"crouch":!ground?(vy>0?"jumping":"falling"):Math.abs(vx)>.1?(advanced&&!run?"walk":"run"):"idle";animation(c,name);
+        boolean moving=Math.abs(p.x-oldX)>1e-6;
+        String name=crouching?(moving?"crouching":"crouch"):!ground?(vy>0?"jumping":"falling"):moving?(advanced&&!run?"walk":"run"):"idle";animation(c,name);
     }
     private void isometric(GameContext c,double dt){
         var p=c.object();double x=c.horizontal()+(c.actionDown("right")?1:0)-(c.actionDown("left")?1:0),y=c.vertical()+((c.actionDown("up")||c.actionDown("pad_up"))?1:0)-((c.actionDown("down")||c.actionDown("pad_down"))?1:0);

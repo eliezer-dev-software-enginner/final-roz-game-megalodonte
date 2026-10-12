@@ -133,3 +133,9 @@ O menu inicial, configurações, seleção de fases e telas de história usam a 
 A engine mantém o último quadro de sprite decodificado enquanto o próximo carrega, evitando alternar entre personagem visível e imagem vazia. Animações cíclicas de inimigos e NPCs usam no máximo 8 quadros por segundo; isso não altera velocidade de movimento nem o deltaTime da física. O intervalo mínimo entre reversões de patrulha passou a 0,5 segundo para evitar espelhamento rápido nas bordas. O importador mantém esses limites nas futuras importações.
 
 O teste `tools/VisualContinuityTest.java` simula 120 desenhos com os próximos frames indisponíveis e verifica os pixels do personagem: o último quadro deve permanecer visível, sem alternar com o fundo. Os testes de patrulha continuam verificando inimigos em cadências de 30 e 120 Hz.
+
+### Animações do personagem
+
+Disparar ativa por 0,2 segundo a pose com arma (`idle_weapon`, `run_weapon`, `jumping_weapon` ou `falling_weapon`), sem interromper movimento ou física. Andar nas fases avançadas usa `run_weapon` durante o disparo, pois o original não fornece `walk_weapon`. Agachado em movimento usa `crouching`; parado usa `crouch`. Sob teto baixo, o personagem permanece agachado até haver espaço para levantar. Quando está bloqueado por uma parede, a animação acompanha o deslocamento real. As fases isométricas mantêm suas animações direcionais; não têm sequência de tiro própria.
+
+`tools/PlayerAnimationTest.java` verifica disparos por teclado, toque e controle, poses no chão e no ar, duração/retorno à locomoção e movimentos agachados.
