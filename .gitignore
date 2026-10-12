@@ -1,0 +1,10 @@
+/build/
+/.gradle/
+/.idea/
+/upstream/
+/tools/__pycache__/
+*.class
+local.properties
+*.jks
+*.keystore
+/.engine/

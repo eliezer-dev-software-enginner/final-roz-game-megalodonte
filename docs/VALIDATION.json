@@ -1,0 +1,17 @@
+{
+  "date": "2026-10-11",
+  "scope": "17 phases and 48 editable scenes",
+  "desktopBuild": "passed",
+  "androidDebugBuild": "passed",
+  "androidReleaseProjectBuild": "passed",
+  "runtimeProgressionPhases": 17,
+  "runtimeSpawnPhases": 17,
+  "engineCoreTests": 52,
+  "alexVsBusRegressionTests": 25,
+  "desktopVisualTest": "passed",
+  "jsonSaveRoundTrip": "passed",
+  "originalMenuStoryStartFlow": "passed",
+  "androidPhysicalDeviceValidation": false,
+  "godotVisualEffectsParity": false,
+  "details": "VALIDATION.md"
+}
