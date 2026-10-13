@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 game_dir="$(cd "$(dirname "$0")/.." && pwd)"
-engine_dir="${MEGALODONTE_ENGINE:-$game_dir/../../megalodonte-declarative/megalodonte-engine}"
+engine_dir="${MEGALODONTE_ENGINE:-$game_dir/../../applications/megalodonte-engine}"
 case "${1:-all}" in
  desktop|appimage) bash "$engine_dir/scripts/build-desktop.sh" "$game_dir" ;;
  android-release) bash "$engine_dir/scripts/export-android-release.sh" "$game_dir" ;;
