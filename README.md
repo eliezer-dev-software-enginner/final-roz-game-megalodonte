@@ -31,7 +31,9 @@ Use **EXPORTAR JSON** e **IMPORTAR JSON** em **☰ → Opções**. No Desktop, o
 
 O documento contém `version`, `applicationId` e `state`: fases desbloqueadas, melhores tempos em milissegundos e opções de áudio/toque. Não inclui posições, moedas da tentativa atual ou objetos da cena. Importar substitui os dados persistentes após validação; JSON inválido, valores fora dos limites ou dados de outro jogo são recusados sem substituir o progresso atual. Faça uma exportação antes de substituir seus dados.
 
-## Build Desktop e Android
+## Requisitos e build Desktop e Android
+
+Para editar ou exportar, tenha a Megalodonte Engine disponível. `tools/build.sh` procura a engine em `../../applications/megalodonte-engine`, em relação à pasta deste projeto. Em outra organização de diretórios, defina `MEGALODONTE_ENGINE` com o caminho da engine. As builds usam Bash e os scripts e ferramentas de build da própria engine; a exportação Android também exige o SDK Android configurado na engine. A geração de AppImage é suportada pelo script da engine em Linux (`x86_64` ou `aarch64`) e pode precisar baixar o `appimagetool`.
 
 Na pasta deste projeto:
 
@@ -41,7 +43,7 @@ bash tools/build.sh android
 bash tools/build.sh android-release
 ```
 
-A engine é encontrada em `../../megalodonte-declarative/megalodonte-engine`; configure `MEGALODONTE_ENGINE` para outra instalação. O diretório de saída abre no explorador ao concluir a build.
+O diretório de saída é aberto no explorador pela engine quando há uma sessão gráfica disponível.
 
 - Desktop Linux: `build/desktop/finalroz/bin/finalroz`; distribuição em `build/desktop/finalroz-linux-x86_64.tar.gz`.
 - APK de teste instalável: `build/android/game-debug.apk`.
@@ -68,7 +70,7 @@ Mapas, polígonos de colisão, sprites, frames de animação, HUD, câmera, mús
 
 ## Importação e referência
 
-O clone original está em `upstream/`, ignorado pelo Git desta adaptação. Para reproduzir a importação, instale Python 3 com Pillow e execute `python3 tools/import-project.py --force`. **Regenerar sobrescreve as edições de `game.json`; guarde uma cópia antes.** O relatório está em [docs/import-report.json](docs/import-report.json), e o mapeamento em [docs/SOURCE.md](docs/SOURCE.md).
+O importador requer os arquivos do [projeto original](https://codeberg.org/rozworld/final-roz-game-new) em `upstream/`. Essa pasta é ignorada pelo Git e pode não existir após clonar esta adaptação. Para reproduzir a importação, obtenha ali o projeto original, instale Python 3, Pillow e `ffmpeg`, e execute `python3 tools/import-project.py --force`. **Regenerar sobrescreve as edições de `game.json`; guarde uma cópia antes.** O relatório está em [docs/import-report.json](docs/import-report.json), e o mapeamento em [docs/SOURCE.md](docs/SOURCE.md).
 
 A fase 1 importada tem 468 moedas, enquanto o contador fixo do original exige 469. Nossa passagem de fase usa a quantidade de moedas realmente presente na cena, e a última coleta é testada nas 17 fases. A mesma regra funciona nos hosts Desktop e Android.
 
@@ -118,7 +120,7 @@ As novas exportações carregam somente a cena ativa, lendo seu JSON em fluxo. I
 
 ### Testar com AppImage
 
-No Linux, execute `bash tools/build.sh appimage` (ou `desktop`). A build gera `build/desktop/finalroz-x86_64.AppImage` neste computador e abre o jogo automaticamente ao concluir. A engine também permite isso pelo botão **Desktop / AppImage**. O pacote contém a JVM; não é necessário instalar Java para jogar. O log da abertura fica em `build/desktop/appimage-run.log`. Para somente gerar o arquivo, use `ENGINE_NO_OPEN=1 bash tools/build.sh appimage`.
+No Linux, execute `bash tools/build.sh appimage` (ou `desktop`); ambos usam a mesma build Desktop da engine. Em `x86_64`, ela gera `build/desktop/finalroz-x86_64.AppImage`; em `aarch64`, o nome usa essa arquitetura. Com uma sessão gráfica, o script tenta abrir o jogo ao concluir. A engine também permite isso pelo botão **Desktop / AppImage**. O pacote contém a JVM; não é necessário instalar Java para jogar. Se a abertura for tentada, o log fica em `build/desktop/appimage-run.log`. Para somente gerar o arquivo, use `ENGINE_NO_OPEN=1 bash tools/build.sh appimage`.
 
 ### Grama e música no Desktop
 
